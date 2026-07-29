@@ -33,8 +33,7 @@ import config from './src/site.config.ts'
 const excludedSitemapPathPatterns = [
   /^\/(?:en\/)?404\/?$/,
   /^\/(?:en\/)?search\/?$/,
-  /^\/api(?:\/|$)/,
-  /^\/\.well-known\/joye-manifest\.json$/
+  /^\/api(?:\/|$)/
 ]
 
 const shouldIncludeInSitemap = (page: string) => {
@@ -69,7 +68,8 @@ const bilingualReadingTime = (): AstroIntegration => ({
 // https://astro.build/config
 export default defineConfig({
   // Top-Level Options
-  site: 'https://www.joyehuang.me',
+  // Replace this placeholder with the final production domain before deployment.
+  site: 'https://example.com',
   // base: '/docs',
   trailingSlash: 'never',
 
@@ -161,20 +161,8 @@ export default defineConfig({
     resolve: {
       dedupe: ['react', 'react-dom']
     },
-    ssr: {
-      external: ['@resvg/resvg-js'],
-      noExternal: ['satori']
-    },
     optimizeDeps: {
-      include: [
-        'satori',
-        'linebreak',
-        'base64-js',
-        'unicode-trie',
-        'unicode-properties',
-        '@waline/client',
-        'recaptcha-v3'
-      ],
+      include: ['@waline/client', 'recaptcha-v3'],
       esbuildOptions: {
         plugins: [
           {

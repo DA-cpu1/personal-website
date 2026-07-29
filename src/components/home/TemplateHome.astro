@@ -1,0 +1,412 @@
+---
+import { getCollection } from 'astro:content'
+
+import { Button, Card, Icon, Label } from 'astro-pure/user'
+import type { Lang } from '@/i18n/ui'
+import config from '@/site-config'
+
+import LinkCard from './LinkCard.astro'
+import Section from './Section.astro'
+import SiteStats from './SiteStats.astro'
+import SkillLayout from './SkillLayout.astro'
+
+interface Props {
+  lang?: Lang
+}
+
+const { lang = 'zh' } = Astro.props
+const isEn = lang === 'en'
+const prefix = isEn ? '/en' : ''
+
+const posts = (await getCollection(isEn ? 'blogEn' : 'blog'))
+  .filter((entry) => !entry.data.draft)
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .slice(0, 5)
+
+const notes = (await getCollection(isEn ? 'notesEn' : 'notes'))
+  .filter((entry) => !entry.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 4)
+
+const copy = isEn
+  ? {
+      avatarAlt: 'Profile placeholder for Chen Sida',
+      about: 'About',
+      role: 'Personal website under construction',
+      introduction:
+        'Hi, I’m Chen Sida. This site is where I keep learning notes, project work, and ideas worth revisiting.',
+      moreAbout: 'More about me',
+      connect: 'Connect Me!',
+      terminalHint: 'Prefer a shortcut? Open the small site terminal.',
+      terminalWelcome: 'Welcome. These shortcuts lead to the main parts of the site.',
+      blog: 'Blog',
+      notes: 'Notes',
+      experience: 'Experience',
+      openSource: 'Open Source',
+      education: 'Education',
+      skills: 'Skills',
+      emptyBlog: 'The first article is being prepared.',
+      emptyNotes: 'Published notes will appear here.',
+      moreBlogs: 'More blogs',
+      moreNotes: 'More notes',
+      experienceTitle: 'Experience to be added',
+      experienceBody: 'Work and project experience will be added after it is reviewed.',
+      githubTitle: 'DA-cpu1 on GitHub',
+      githubBody: 'Public repositories and ongoing experiments.',
+      educationTitle: 'Education to be added',
+      educationBody: 'Add school, programme, and dates here when ready.',
+      siteStack: 'Site stack',
+      workflow: 'Workflow',
+      quote: 'Build the site around your own work, one page at a time.'
+    }
+  : {
+      avatarAlt: '陈锶达的头像占位图',
+      about: 'About',
+      role: '个人网站正在搭建中',
+      introduction:
+        '你好，我是陈锶达。这里用来长期记录学习过程、项目实践，以及值得反复回看的思考。',
+      moreAbout: '更多关于我',
+      connect: 'Connect Me!',
+      terminalHint: '想快速浏览？可以打开这个轻量站点终端。',
+      terminalWelcome: '欢迎。下面的快捷入口会带你前往网站的主要部分。',
+      blog: 'Blog',
+      notes: 'Notes',
+      experience: 'Experience',
+      openSource: 'Open Source',
+      education: 'Education',
+      skills: 'Skills',
+      emptyBlog: '第一篇文章正在准备中。',
+      emptyNotes: '发布笔记后，它们会出现在这里。',
+      moreBlogs: '更多文章',
+      moreNotes: '更多笔记',
+      experienceTitle: '经历待补充',
+      experienceBody: '工作、实习与项目经历整理完成后会添加到这里。',
+      githubTitle: 'DA-cpu1 的 GitHub',
+      githubBody: '公开仓库与正在进行的实验。',
+      educationTitle: '教育经历待补充',
+      educationBody: '确认后可在这里填写学校、专业与时间。',
+      siteStack: '站点技术',
+      workflow: '工作流',
+      quote: '先写下自己的内容，再一步一步把网站变成喜欢的样子。'
+    }
+
+const siteSkills = ['Astro', 'TypeScript', 'MDX']
+const workflowSkills = ['Git', 'Bun']
+---
+
+<main class='flex w-full flex-col items-center'>
+  <section
+    class='animate relative z-20 mb-10 flex flex-col items-center gap-y-7'
+    id='content-header'
+  >
+    <img
+      src='/avatar-placeholder.svg'
+      alt={copy.avatarAlt}
+      class='size-28 rounded-full border bg-background p-1'
+      loading='eager'
+      width='112'
+      height='112'
+    />
+
+    <div class='flex flex-col items-center gap-y-4'>
+      <h1 class='text-3xl font-bold'>{config.author}</h1>
+      <div class='flex flex-wrap justify-center gap-x-7 gap-y-3'>
+        <Label
+          title='GitHub'
+          as='a'
+          href='https://github.com/DA-cpu1'
+          target='_blank'
+          rel='noreferrer'
+        >
+          <Icon name='github' class='size-5' slot='icon' />
+        </Label>
+      </div>
+    </div>
+
+    <div class='flex flex-row gap-3'>
+      <a
+        href={`${prefix}/contact`}
+        class='flex flex-row items-center gap-x-3 rounded-full border bg-background px-4 py-2 text-sm shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md'
+      >
+        <span class='relative flex items-center justify-center'>
+          <span
+            class='absolute size-2 animate-ping rounded-full border border-green-400 bg-green-400 opacity-75'
+          ></span>
+          <span class='size-2 rounded-full bg-green-400'></span>
+        </span>
+        <p class='font-medium text-muted-foreground'>{copy.connect}</p>
+      </a>
+    </div>
+  </section>
+
+  <div
+    id='content'
+    class='animate relative z-10 flex w-full min-w-0 max-w-full flex-col gap-y-10 md:w-4/5 lg:w-5/6'
+  >
+    <clean-home-terminal class='home-terminal -mt-2 block overflow-hidden rounded-2xl border'>
+      <button
+        type='button'
+        class='terminal-bar flex w-full items-center gap-3 px-4 py-3 text-left'
+        aria-expanded='false'
+        data-terminal-toggle
+      >
+        <span class='flex gap-1.5' aria-hidden='true'>
+          <span class='size-2.5 rounded-full bg-red-400'></span>
+          <span class='size-2.5 rounded-full bg-amber-400'></span>
+          <span class='size-2.5 rounded-full bg-green-400'></span>
+        </span>
+        <code class='min-w-0 flex-1 truncate text-xs sm:text-sm'>
+          <span class='terminal-prompt'>visitor@personal-site:~$</span>
+          <span class='ms-2 text-muted-foreground'>help</span>
+        </code>
+        <span class='terminal-chevron text-muted-foreground' aria-hidden='true'>⌄</span>
+      </button>
+      <div class='terminal-panel border-t px-4 py-4' data-terminal-panel hidden>
+        <p class='m-0 text-sm text-muted-foreground'>{copy.terminalWelcome}</p>
+        <nav class='mt-3 flex flex-wrap gap-2' aria-label='Site shortcuts'>
+          <a href={`${prefix}/about`}>about</a>
+          <a href={`${prefix}/blog`}>blog</a>
+          <a href={`${prefix}/notes`}>notes</a>
+          <a href={`${prefix}/projects`}>projects</a>
+        </nav>
+      </div>
+    </clean-home-terminal>
+    <p class='-mt-8 text-center text-xs text-muted-foreground'>{copy.terminalHint}</p>
+
+    <Section title={copy.about}>
+      <p class='text-muted-foreground'>{copy.role}</p>
+      <p class='text-muted-foreground'>{copy.introduction}</p>
+      <Button
+        title={copy.moreAbout}
+        class='w-fit self-end'
+        href={`${prefix}/about`}
+        style='ahead'
+      />
+    </Section>
+
+    <Section title={copy.blog}>
+      {
+        posts.length ? (
+          <ul class='flex flex-col gap-y-1.5 sm:gap-y-2'>
+            {posts.map((post) => (
+              <li class='home-list-item'>
+                <a href={`${prefix}/blog/${post.id.replace(/\.en$/, '')}`}>
+                  <span>{post.data.title}</span>
+                  <time datetime={post.data.publishDate.toISOString()}>
+                    {post.data.publishDate.toLocaleDateString(isEn ? 'en-US' : 'zh-CN')}
+                  </time>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div class='empty-card'>{copy.emptyBlog}</div>
+        )
+      }
+      <Button
+        title={copy.moreBlogs}
+        class='w-fit self-end'
+        href={`${prefix}/blog`}
+        style='ahead'
+      />
+    </Section>
+
+    <Section title={copy.notes}>
+      {
+        notes.length ? (
+          <ul class='flex flex-col gap-y-1.5 sm:gap-y-2'>
+            {notes.map((note) => (
+              <li class='home-list-item'>
+                <a href={`${prefix}/notes/${note.id.replace(/\.en$/, '')}`}>
+                  <span>{note.data.title}</span>
+                  <time datetime={note.data.date.toISOString()}>
+                    {note.data.date.toLocaleDateString(isEn ? 'en-US' : 'zh-CN')}
+                  </time>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div class='empty-card'>{copy.emptyNotes}</div>
+        )
+      }
+      <Button
+        title={copy.moreNotes}
+        class='w-fit self-end'
+        href={`${prefix}/notes`}
+        style='ahead'
+      />
+    </Section>
+
+    <Section title={copy.experience}>
+      <LinkCard
+        heading={copy.experienceTitle}
+        subheading={copy.experienceBody}
+        href={`${prefix}/about`}
+        target='_self'
+      />
+    </Section>
+
+    <Section title={copy.openSource}>
+      <LinkCard
+        heading={copy.githubTitle}
+        subheading={copy.githubBody}
+        href='https://github.com/DA-cpu1'
+      />
+    </Section>
+
+    <Section title={copy.education}>
+      <Card heading={copy.educationTitle} subheading={copy.educationBody} />
+    </Section>
+
+    <Section title={copy.skills}>
+      <SkillLayout title={copy.siteStack} skills={siteSkills} />
+      <SkillLayout title={copy.workflow} skills={workflowSkills} />
+    </Section>
+
+    <SiteStats lang={isEn ? 'en' : 'zh'} />
+  </div>
+
+  <blockquote class='home-quote mt-12'>{copy.quote}</blockquote>
+</main>
+
+<script>
+  class CleanHomeTerminal extends HTMLElement {
+    private toggleButton: HTMLButtonElement | null = null
+    private panel: HTMLElement | null = null
+
+    private handleToggle = () => {
+      if (!this.toggleButton || !this.panel) return
+      const expanded = this.toggleButton.getAttribute('aria-expanded') === 'true'
+      this.toggleButton.setAttribute('aria-expanded', String(!expanded))
+      this.panel.hidden = expanded
+    }
+
+    connectedCallback() {
+      this.toggleButton = this.querySelector('[data-terminal-toggle]')
+      this.panel = this.querySelector('[data-terminal-panel]')
+      this.toggleButton?.addEventListener('click', this.handleToggle)
+    }
+
+    disconnectedCallback() {
+      this.toggleButton?.removeEventListener('click', this.handleToggle)
+    }
+  }
+
+  if (!customElements.get('clean-home-terminal')) {
+    customElements.define('clean-home-terminal', CleanHomeTerminal)
+  }
+</script>
+
+<style>
+  .home-terminal {
+    background: hsl(var(--term-surface));
+    box-shadow: 0 14px 34px hsl(200 30% 30% / 0.08);
+  }
+
+  .terminal-bar {
+    background: hsl(var(--term-chrome));
+  }
+
+  .terminal-bar:hover {
+    background: hsl(var(--muted));
+  }
+
+  .terminal-prompt {
+    color: #4f8ba8;
+  }
+
+  .terminal-chevron {
+    transition: transform 0.2s ease;
+  }
+
+  [aria-expanded='true'] .terminal-chevron {
+    transform: rotate(180deg);
+  }
+
+  .terminal-panel nav a {
+    border: 1px solid hsl(var(--border));
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    color: hsl(var(--muted-foreground));
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.78rem;
+    text-decoration: none;
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .terminal-panel nav a:hover {
+    border-color: #659eb9;
+    color: #4f8ba8;
+    transform: translateY(-1px);
+  }
+
+  .home-list-item {
+    list-style: none;
+  }
+
+  .home-list-item a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 1rem;
+    padding: 0.75rem 1.25rem;
+    color: hsl(var(--foreground));
+    text-decoration: none;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .home-list-item a:hover {
+    border-color: hsl(var(--primary) / 0.45);
+    background: hsl(var(--muted));
+    transform: translateY(-1px);
+  }
+
+  .home-list-item time {
+    flex: none;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.75rem;
+  }
+
+  .empty-card {
+    border: 1px dashed hsl(var(--border));
+    border-radius: 1rem;
+    padding: 1.25rem;
+    color: hsl(var(--muted-foreground));
+    background: hsl(var(--muted) / 0.35);
+  }
+
+  .home-quote {
+    max-width: 38rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.95rem;
+    font-style: italic;
+    text-align: center;
+  }
+
+  @media (max-width: 520px) {
+    .home-list-item a {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .terminal-chevron,
+    .terminal-panel nav a,
+    .home-list-item a {
+      transition: none;
+    }
+  }
+</style>

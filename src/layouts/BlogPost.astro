@@ -44,9 +44,8 @@ const {
   updatedDate
 } = data
 
-// English mirrors (id ends in `.en`) reuse the Chinese post's generated OG image
-// unless a post provides a custom static social card.
-const socialImage = data.ogImage ?? `/og/blog/${id.replace(/\.en$/, '')}.png`
+// Use the shared local social card unless a post provides its own static image.
+const socialImage = data.ogImage ?? '/og/default.png'
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString()
 const primaryColor = data.heroImage?.color ?? 'hsl(var(--primary) / var(--un-text-opacity))'
 const tocDepth = data.tocDepth ?? 3

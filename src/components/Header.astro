@@ -15,14 +15,11 @@ const t = useTranslations(lang)
 const menuKeyMap: Record<string, Parameters<typeof t>[0]> = {
   '/blog': 'nav.blog',
   '/notes': 'nav.notes',
-  '/curated': 'nav.curated',
   '/projects': 'nav.projects',
-  '/links': 'nav.links',
   '/about': 'nav.about',
   '/contact': 'nav.contact'
 }
 
-// 英文站只展示有英文镜像的菜单项，避免生成 /en/talks 这类 404 链接
 const menu = (config.header?.menu ?? [])
   .filter((item) => lang !== 'en' || hasEnAlternate(item.link))
   .map((item) => {
@@ -44,11 +41,12 @@ const searchHref = localizedPath('/search', lang)
     class='z-30 text-xl font-semibold group-[.not-top]:ms-2 sm:group-[.not-top]:ms-3'
     style='transition:margin-inline 0.3s'
     href={homeHref}
-    aria-label='Brand'>{config.title}</a
+    aria-label='Brand'
   >
+    {config.title}
+  </a>
 
   <div class='flex items-center gap-x-2'>
-    {/* Menu links */}
     <div
       id='headerExpandContent'
       class='end-0 start-0 top-12 grid border border-transparent group-[.not-top]:rounded-xl group-[.expanded]:opacity-100 dark:group-[.expanded.not-top]:bg-muted max-sm:absolute max-sm:opacity-0 max-sm:group-[.not-top]:border-border max-sm:group-[.expanded.not-top]:bg-background max-sm:group-[.not-top]:px-4 max-sm:group-[.not-top]:py-2 sm:grid-rows-1'
@@ -74,17 +72,8 @@ const searchHref = localizedPath('/search', lang)
       </div>
     </div>
 
-    {/* buttons */}
     <div class='z-30 flex gap-x-4 group-[.not-top]:gap-x-2' style='transition:gap 0.3s'>
       <LanguageSwitcher lang={lang} />
-      <button
-        id='toggleDevMode'
-        class='group/dev box-content h-5 rounded-md border p-1.5 font-mono text-xs leading-5 tracking-tight text-muted-foreground transition-colors hover:bg-border hover:text-primary sm:group-[.not-top]:rounded-xl'
-        aria-label='Enter dev mode'
-        title='dev mode (press `)'
-      >
-        <span aria-hidden='true'>$_</span>
-      </button>
       <button
         id='toggleDarkMode'
         class='group/dark relative box-content size-5 rounded-md border p-1.5 transition-colors hover:bg-border sm:group-[.not-top]:rounded-xl'
@@ -107,70 +96,49 @@ const searchHref = localizedPath('/search', lang)
   </div>
 </header-component>
 
-{/* Use inline to load icon quicker firstly */}
 <script is:inline>
   const toggleDarkModeElement = document.getElementById('toggleDarkMode')
   if (toggleDarkModeElement) {
     toggleDarkModeElement.dataset.theme = localStorage.getItem('theme') || 'system'
   }
 </script>
+
 <script>
   import { setTheme, showToast } from 'astro-pure/utils'
-  import { trackSiteEvent } from '@/lib/analytics'
 
   class Header extends HTMLElement {
     private toggleMenuBtn: HTMLElement | null = null
-
-    constructor() {
-      super()
-    }
+    private preScrollY = 0
 
     private setMenuExpanded(expanded: boolean) {
       this.classList.toggle('expanded', expanded)
       this.toggleMenuBtn?.setAttribute('aria-expanded', expanded.toString())
     }
 
+    private handleScroll = () => {
+      this.classList.toggle('not-top', window.scrollY > 20)
+      this.dataset.show = (window.scrollY < 350 || window.scrollY < this.preScrollY).toString()
+      this.preScrollY = window.scrollY
+    }
+
     private handleDocumentPointerDown = (event: PointerEvent) => {
       if (!this.classList.contains('expanded')) return
-
       const target = event.target
-      if (!(target instanceof Element)) return
-
-      if (!this.contains(target)) {
+      if (!(target instanceof Element) || !this.contains(target)) {
         this.setMenuExpanded(false)
-        return
       }
-
-      if (target.closest('a, button')) return
-
-      this.setMenuExpanded(false)
     }
 
     connectedCallback() {
-      let preScrollY = window.scrollY
-      this.classList.toggle('not-top', preScrollY > 20)
-      window.addEventListener('scroll', () => {
-        this.classList.toggle('not-top', window.scrollY > 20)
-        this.dataset.show = (window.scrollY < 350 || window.scrollY < preScrollY).toString()
-        preScrollY = window.scrollY
-      })
+      this.preScrollY = window.scrollY
+      this.handleScroll()
+      window.addEventListener('scroll', this.handleScroll, { passive: true })
 
       const darkModeBtn = this.querySelector('#toggleDarkMode') as HTMLElement
-      darkModeBtn.addEventListener('click', () => {
+      darkModeBtn?.addEventListener('click', () => {
         const newTheme = setTheme(undefined, true)
         darkModeBtn.dataset.theme = newTheme
         showToast({ message: `Set theme to ${newTheme}` })
-      })
-
-      this.querySelector('#toggleDevMode')?.addEventListener('click', () => {
-        if (document.documentElement.dataset.mode !== 'dev') {
-          trackSiteEvent('terminal_open', {
-            method: 'window_control',
-            surface: 'dev_mode',
-            target: 'terminal_shell'
-          })
-        }
-        window.dispatchEvent(new CustomEvent('joye:toggle-dev'))
       })
 
       this.toggleMenuBtn = this.querySelector('#toggleMenu')
@@ -182,11 +150,14 @@ const searchHref = localizedPath('/search', lang)
     }
 
     disconnectedCallback() {
+      window.removeEventListener('scroll', this.handleScroll)
       document.removeEventListener('pointerdown', this.handleDocumentPointerDown)
     }
   }
 
-  customElements.define('header-component', Header)
+  if (!customElements.get('header-component')) {
+    customElements.define('header-component', Header)
+  }
 </script>
 
 <style>
@@ -206,25 +177,26 @@ const searchHref = localizedPath('/search', lang)
       padding-left: 0.375rem;
       padding-right: 0.375rem;
       box-shadow:
-        rgb(255, 255, 255) 0px 0px 0px 0px,
-        rgba(24, 24, 27, 0.08) 0px 0px 0px 1px,
-        rgba(39, 39, 42, 0.08) 0px 10px 15px -3px,
-        rgba(39, 39, 42, 0.08) 0px 4px 6px -4px;
+        rgba(24, 24, 27, 0.08) 0 0 0 1px,
+        rgba(39, 39, 42, 0.08) 0 10px 15px -3px,
+        rgba(39, 39, 42, 0.08) 0 4px 6px -4px;
     }
+
     &[data-show='false']:not(.expanded) {
       transform: translateY(-5rem);
     }
   }
+
   @media (min-width: 800px) {
     header-component.not-top {
       margin-inline: 8%;
     }
   }
+
   :global(.dark) header-component.not-top {
     background-color: hsl(var(--muted) / var(--un-bg-opacity));
   }
 
-  /* header menu */
   @media (max-width: 640px) {
     #headerExpandContent {
       top: calc(100% + 0.5rem);
@@ -235,85 +207,47 @@ const searchHref = localizedPath('/search', lang)
         border-color 0.15s,
         grid-template-rows 0.3s;
     }
+
     .expanded #headerExpandContent {
       grid-template-rows: 1fr;
     }
+
     .expanded.not-top #headerExpandContent {
       box-shadow:
-        rgb(255, 255, 255) 0px 0px 0px 0px,
-        rgba(24, 24, 27, 0.08) 0px 0px 0px 1px,
-        rgba(39, 39, 42, 0.08) 0px 10px 15px -3px,
-        rgba(39, 39, 42, 0.08) 0px 4px 6px -4px;
-    }
-
-    /* header component after */
-    header-component #headerExpandContent::after {
-      box-sizing: content-box;
-      content: '';
-      position: absolute;
-      inset-inline: calc(-1rem - 1px);
-      bottom: 0;
-      top: -5rem;
-      z-index: -1;
-      transition: 0.3s;
-      visibility: hidden;
-      opacity: 0;
-      border-bottom: 1px solid transparent;
-    }
-    header-component:not(.not-top) #headerExpandContent::after {
-      visibility: visible;
-      bottom: -1rem;
-      opacity: 1;
-      background-color: hsl(var(--muted) / var(--un-bg-opacity, 1));
-      border-bottom-color: hsl(var(--border) / var(--un-border-opacity, 1));
+        rgba(24, 24, 27, 0.08) 0 0 0 1px,
+        rgba(39, 39, 42, 0.08) 0 10px 15px -3px;
     }
   }
 
-  /* dark light mode toggle */
-  #toggleDarkMode {
-    & .theme-icon {
-      position: absolute;
-      inset: 0;
-      margin: auto;
-      opacity: 0;
-      filter: blur(4px);
-      transform: scale(0.6);
-      transition:
-        opacity 0.25s ease,
-        filter 0.25s ease,
-        transform 0.25s ease;
-      pointer-events: none;
-    }
-    & .system {
-      opacity: 1;
-      filter: blur(0);
-      transform: scale(1);
-    }
-    &[data-theme='dark'] {
-      & .system {
-        opacity: 0;
-        filter: blur(4px);
-        transform: scale(0.6);
-      }
-      & .dark {
-        opacity: 1;
-        filter: blur(0);
-        transform: scale(1);
-      }
-    }
-    &[data-theme='light'] {
-      & .system {
-        opacity: 0;
-        filter: blur(4px);
-        transform: scale(0.6);
-      }
-      & .light {
-        opacity: 1;
-        filter: blur(0);
-        transform: scale(1);
-      }
-    }
+  #toggleDarkMode .theme-icon {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    opacity: 0;
+    filter: blur(4px);
+    transform: scale(0.6);
+    transition:
+      opacity 0.25s ease,
+      filter 0.25s ease,
+      transform 0.25s ease;
+    pointer-events: none;
   }
+
+  #toggleDarkMode .system,
+  #toggleDarkMode[data-theme='dark'] .dark,
+  #toggleDarkMode[data-theme='light'] .light {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+
+  #toggleDarkMode[data-theme='dark'] .system,
+  #toggleDarkMode[data-theme='light'] .system {
+    opacity: 0;
+    filter: blur(4px);
+    transform: scale(0.6);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     #toggleDarkMode .theme-icon {
       transition: none;

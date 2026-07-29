@@ -10,10 +10,12 @@ export const prerender = true
 
 export async function getStaticPaths() {
   const notes = await getCollection('notes')
-  return notes.map((entry) => ({
-    params: { id: entry.id },
-    props: { entry }
-  }))
+  return notes
+    .filter((entry) => (import.meta.env.PROD ? !entry.data.draft : true))
+    .map((entry) => ({
+      params: { id: entry.id },
+      props: { entry }
+    }))
 }
 
 type Props = {

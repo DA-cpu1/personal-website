@@ -1,0 +1,14 @@
+{
+  "name": "陈锶达的个人网站",
+  "short_name": "陈锶达",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "theme_color": "#fcfdfe",
+  "background_color": "#fcfdfe",
+  "display": "standalone"
+}
