@@ -1,11 +1,19 @@
 ---
 import PageLayout from '@/layouts/CommonPage.astro'
 
-const headings = [{ depth: 2, slug: 'github', text: 'GitHub' }]
+const headings = [
+  { depth: 2, slug: 'email', text: 'Email' },
+  { depth: 2, slug: 'github', text: 'GitHub' }
+]
 ---
 
 <PageLayout title='Contact' {headings}>
-  <p>目前公开的联系方式只有 GitHub。邮箱和其他社交账号会在确认后再添加到这里。</p>
+  <p>欢迎通过邮件或 GitHub 联系我。</p>
+
+  <h2 id='email'>Email</h2>
+  <p>
+    <a href='mailto:chensida2005@foxmail.com'>chensida2005@foxmail.com</a>
+  </p>
 
   <h2 id='github'>GitHub</h2>
   <p>

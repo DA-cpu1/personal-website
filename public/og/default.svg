@@ -13,9 +13,9 @@
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect width="1200" height="8" fill="url(#accent)"/>
   <rect x="72" y="72" width="72" height="72" rx="18" fill="#659eb9"/>
-  <text x="108" y="119" text-anchor="middle" fill="#eef7fb" font-family="Arial, sans-serif" font-size="28" font-weight="700">CS</text>
+  <text x="108" y="119" text-anchor="middle" fill="#eef7fb" font-family="Arial, sans-serif" font-size="28" font-weight="700">Sr</text>
   <text x="168" y="118" fill="#d6d3d1" font-family="Arial, sans-serif" font-size="24" font-weight="600" letter-spacing="5">PERSONAL WEBSITE</text>
-  <text x="72" y="355" fill="#fafaf9" font-family="'Microsoft YaHei', 'Noto Sans SC', sans-serif" font-size="96" font-weight="700">陈锶达</text>
+  <text x="72" y="355" fill="#fafaf9" font-family="Arial, sans-serif" font-size="96" font-weight="700" letter-spacing="1">Strontium</text>
   <text x="72" y="430" fill="#d6d3d1" font-family="'Microsoft YaHei', 'Noto Sans SC', sans-serif" font-size="40">记录学习、项目与思考</text>
   <line x1="72" y1="535" x2="1128" y2="535" stroke="#44474f"/>
   <text x="72" y="578" fill="#a8a29e" font-family="'Microsoft YaHei', 'Noto Sans SC', sans-serif" font-size="22" letter-spacing="2">学习 · 项目 · 思考</text>

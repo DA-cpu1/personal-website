@@ -1,6 +1,6 @@
 # Personal Website
 
-陈锶达的个人网站，基于 Astro 5 与 Astro Theme Pure 构建。
+Strontium 的个人网站，基于 Astro 5 与 Astro Theme Pure 构建。
 
 当前仓库已经移除上游模板作者的文章、头像、二维码、活动、项目案例和外部服务配置，只保留博客、笔记、搜索、双语路由、RSS、SEO 与主题切换等通用能力。
 

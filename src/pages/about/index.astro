@@ -2,28 +2,35 @@
 import PageLayout from '@/layouts/CommonPage.astro'
 
 const headings = [
-  { depth: 2, slug: 'site', text: '关于这个网站' },
-  { depth: 2, slug: 'now', text: '现在' }
+  { depth: 2, slug: 'education', text: '教育背景' },
+  { depth: 2, slug: 'awards', text: '奖项与证书' },
+  { depth: 2, slug: 'site', text: '关于这个网站' }
 ]
 ---
 
 <PageLayout title='About' {headings}>
   <p>
-    你好，我是陈锶达。这里是我的个人网站，用来长期记录学习过程、项目实践与值得保留的思考。
+    我是陈锶达，网名 Strontium，西南民族大学计算机科学与技术本科生，方向是前端开发与 Agent 开发。
   </p>
+  <p>目前主要做两类项目：一个做实时语音模拟面试，一个把本地笔记整理成可检索、可引用的问答。</p>
+
+  <h2 id='education'>教育背景</h2>
+  <p>
+    <strong>西南民族大学</strong><br />
+    计算机科学与技术 · 本科在读 · 2024.09–2028.06
+  </p>
+  <p>主修课程：数据库、计算机组成原理、计算机网络、数据结构</p>
+
+  <h2 id='awards'>奖项与证书</h2>
+  <ul>
+    <li>蓝桥杯省赛二等奖</li>
+    <li>大学英语四级（CET-4）</li>
+  </ul>
 
   <h2 id='site'>关于这个网站</h2>
   <p>
-    网站目前处于搭建阶段。内容会逐步增加，但只保留真正由我完成、愿意持续维护的部分。
-  </p>
-
-  <h2 id='now'>现在</h2>
-  <p>
-    第一阶段会先完成个人介绍、项目展示和博客写作流程。更完整的经历与兴趣信息将在整理后补充。
-  </p>
-
-  <p>
-    你可以先在 <a href='https://github.com/DA-cpu1' target='_blank' rel='noreferrer'>GitHub</a>
+    这个网站用来记录项目过程、学习笔记和仍在解决的问题。你可以在
+    <a href='https://github.com/DA-cpu1' target='_blank' rel='noreferrer'>GitHub</a>
     查看我的公开代码。
   </p>
 </PageLayout>

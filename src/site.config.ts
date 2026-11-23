@@ -1,8 +1,8 @@
 import type { Config, IntegrationUserConfig, ThemeUserConfig } from 'astro-pure/types'
 
 export const theme: ThemeUserConfig = {
-  title: '陈锶达的个人网站',
-  author: '陈锶达',
+  title: 'Strontium',
+  author: 'Strontium',
   description: '记录学习、项目与思考。',
   favicon: '/favicon.svg',
   locale: {
@@ -50,8 +50,8 @@ export const integ: IntegrationUserConfig = {
     applyTip: [
       { name: 'Name', val: theme.title },
       { name: 'Desc', val: theme.description || '' },
-      { name: 'Link', val: 'https://example.com/' },
-      { name: 'Avatar', val: 'https://example.com/favicon.svg' }
+      { name: 'Link', val: 'https://strontium-two.vercel.app/' },
+      { name: 'Avatar', val: 'https://strontium-two.vercel.app/favicon.svg' }
     ]
   },
   pagefind: false,

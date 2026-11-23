@@ -8,12 +8,59 @@ const headings = [
 ---
 
 <PageLayout title='Projects' {headings}>
-  <p>这里将展示由我完成或深度参与的项目，并记录问题、过程、关键决策与结果。</p>
+  <p>这里记录我在前端与 Agent 方向做过的项目。</p>
 
   <h2 id='selected'>项目档案</h2>
-  <div class='not-prose my-6 rounded-2xl border border-dashed p-6 sm:p-8'>
-    <p class='m-0 text-lg font-medium text-foreground'>第一个项目案例正在整理中</p>
-    <p class='mb-0 mt-2 text-muted-foreground'>完成后会在这里发布，而不是保留模板示例。</p>
+  <div class='not-prose mt-6 grid gap-4 md:grid-cols-2'>
+    <article id='ai-interview' class='scroll-mt-24 rounded-2xl border bg-muted px-5 py-4'>
+      <h3 class='text-lg font-medium'>AI 语音模拟面试平台</h3>
+      <p class='mt-2 text-muted-foreground'>
+        面向求职者的实时语音模拟面试工具。按岗位、级别和技术栈配置练习，提供实时字幕、五维评分、回答优点与改进建议。
+      </p>
+      <div class='mt-4 flex flex-wrap gap-2'>
+        {
+          ['Next.js', 'React', 'TypeScript', 'Firebase', 'AICallKit', '阿里云百炼', 'Zod'].map(
+            (item) => (
+              <span class='rounded-full bg-background px-2.5 py-1 text-xs text-muted-foreground'>
+                {item}
+              </span>
+            )
+          )
+        }
+      </div>
+      <p class='mt-4 text-xs text-muted-foreground'>
+        技术关键词：Zod 校验 · Firebase 登录与数据归属 · 实时字幕 · 评分反馈
+      </p>
+    </article>
+
+    <article id='memories' class='scroll-mt-24 rounded-2xl border bg-muted px-5 py-4'>
+      <h3 class='text-lg font-medium'>Auto-Memories-Doll</h3>
+      <p class='mt-2 text-muted-foreground'>
+        把本地开发笔记与 Codex 等工具会话整理成 Markdown 知识库，支持语义检索、Tool Calling
+        和带来源引用的问答。
+      </p>
+      <div class='mt-4 flex flex-wrap gap-2'>
+        {
+          [
+            'Next.js',
+            'React',
+            'TypeScript',
+            'Vercel AI SDK',
+            'Embedding',
+            'SQLite',
+            'USearch',
+            'Zod'
+          ].map((item) => (
+            <span class='rounded-full bg-background px-2.5 py-1 text-xs text-muted-foreground'>
+              {item}
+            </span>
+          ))
+        }
+      </div>
+      <p class='mt-4 text-xs text-muted-foreground'>
+        技术关键词：任务持久化 · Tool Calling 循环 · 引用校验与拒答 · RAG 检索
+      </p>
+    </article>
   </div>
 
   <h2 id='github'>GitHub</h2>

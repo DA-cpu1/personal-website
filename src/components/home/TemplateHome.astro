@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content'
+import type { Lang } from '@/i18n/ui'
 
 import { Button, Card, Icon, Label } from 'astro-pure/user'
-import type { Lang } from '@/i18n/ui'
 import config from '@/site-config'
 
 import LinkCard from './LinkCard.astro'
@@ -30,11 +30,11 @@ const notes = (await getCollection(isEn ? 'notesEn' : 'notes'))
 
 const copy = isEn
   ? {
-      avatarAlt: 'Profile placeholder for Chen Sida',
+      avatarAlt: 'Strontium profile illustration',
       about: 'About',
       role: 'Personal website under construction',
       introduction:
-        'Hi, I’m Chen Sida. This site is where I keep learning notes, project work, and ideas worth revisiting.',
+        'Hi, I’m Strontium. This site is where I keep learning notes, project work, and ideas worth revisiting.',
       moreAbout: 'More about me',
       connect: 'Connect Me!',
       terminalHint: 'Prefer a shortcut? Open the small site terminal.',
@@ -60,18 +60,18 @@ const copy = isEn
       quote: 'Build the site around your own work, one page at a time.'
     }
   : {
-      avatarAlt: '陈锶达的头像占位图',
+      avatarAlt: 'Strontium 的头像',
       about: 'About',
-      role: '个人网站正在搭建中',
+      role: '',
       introduction:
-        '你好，我是陈锶达。这里用来长期记录学习过程、项目实践，以及值得反复回看的思考。',
+        '你好，我是陈锶达（Strontium），西南民族大学计算机科学与技术本科生。这里记录我的项目实践、学习笔记和仍在解决的问题。',
       moreAbout: '更多关于我',
       connect: 'Connect Me!',
       terminalHint: '想快速浏览？可以打开这个轻量站点终端。',
       terminalWelcome: '欢迎。下面的快捷入口会带你前往网站的主要部分。',
       blog: 'Blog',
       notes: 'Notes',
-      experience: 'Experience',
+      experience: '项目实践',
       openSource: 'Open Source',
       education: 'Education',
       skills: 'Skills',
@@ -90,8 +90,47 @@ const copy = isEn
       quote: '先写下自己的内容，再一步一步把网站变成喜欢的样子。'
     }
 
-const siteSkills = ['Astro', 'TypeScript', 'MDX']
-const workflowSkills = ['Git', 'Bun']
+const experienceCards = isEn
+  ? [
+      {
+        heading: copy.experienceTitle,
+        body: copy.experienceBody,
+        href: `${prefix}/about`,
+        target: '_self'
+      }
+    ]
+  : [
+      {
+        heading: 'AI 语音模拟面试平台',
+        body: '实时语音问答、五维评分与改进建议。',
+        href: '/projects#ai-interview',
+        target: '_self'
+      },
+      {
+        heading: 'Auto-Memories-Doll',
+        body: '把本地笔记与 Codex 会话整理成可引用问答。',
+        href: '/projects#memories',
+        target: '_self'
+      }
+    ]
+
+const skills = isEn
+  ? [
+      { title: copy.siteStack, items: ['Astro', 'TypeScript', 'MDX'] },
+      { title: copy.workflow, items: ['Git', 'Bun'] }
+    ]
+  : [
+      {
+        title: '前端',
+        items: ['HTML5', 'CSS3', 'JavaScript', 'TypeScript', 'React', 'Next.js']
+      },
+      { title: '工程化', items: ['Vite', 'npm', 'Git'] },
+      {
+        title: 'AI & Agent',
+        items: ['LLM API', 'Prompt', 'Structured Output', 'RAG', 'Tool Calling']
+      },
+      { title: 'AI 工具', items: ['Codex'] }
+    ]
 ---
 
 <main class='flex w-full flex-col items-center'>
@@ -100,7 +139,7 @@ const workflowSkills = ['Git', 'Bun']
     id='content-header'
   >
     <img
-      src='/avatar-placeholder.svg'
+      src='/avatar-strontium.webp'
       alt={copy.avatarAlt}
       class='size-28 rounded-full border bg-background p-1'
       loading='eager'
@@ -174,7 +213,7 @@ const workflowSkills = ['Git', 'Bun']
     <p class='-mt-8 text-center text-xs text-muted-foreground'>{copy.terminalHint}</p>
 
     <Section title={copy.about}>
-      <p class='text-muted-foreground'>{copy.role}</p>
+      {copy.role && <p class='text-muted-foreground'>{copy.role}</p>}
       <p class='text-muted-foreground'>{copy.introduction}</p>
       <Button
         title={copy.moreAbout}
@@ -203,12 +242,7 @@ const workflowSkills = ['Git', 'Bun']
           <div class='empty-card'>{copy.emptyBlog}</div>
         )
       }
-      <Button
-        title={copy.moreBlogs}
-        class='w-fit self-end'
-        href={`${prefix}/blog`}
-        style='ahead'
-      />
+      <Button title={copy.moreBlogs} class='w-fit self-end' href={`${prefix}/blog`} style='ahead' />
     </Section>
 
     <Section title={copy.notes}>
@@ -239,12 +273,16 @@ const workflowSkills = ['Git', 'Bun']
     </Section>
 
     <Section title={copy.experience}>
-      <LinkCard
-        heading={copy.experienceTitle}
-        subheading={copy.experienceBody}
-        href={`${prefix}/about`}
-        target='_self'
-      />
+      {
+        experienceCards.map((card) => (
+          <LinkCard
+            heading={card.heading}
+            subheading={card.body}
+            href={card.href}
+            target={card.target}
+          />
+        ))
+      }
     </Section>
 
     <Section title={copy.openSource}>
@@ -256,12 +294,21 @@ const workflowSkills = ['Git', 'Bun']
     </Section>
 
     <Section title={copy.education}>
-      <Card heading={copy.educationTitle} subheading={copy.educationBody} />
+      {
+        isEn ? (
+          <Card heading={copy.educationTitle} subheading={copy.educationBody} />
+        ) : (
+          <Card heading='西南民族大学' subheading='计算机科学与技术 · 本科在读 · 2024.09–2028.06'>
+            <p class='m-0 text-sm text-muted-foreground'>
+              主修课程：数据库、计算机组成原理、计算机网络、数据结构
+            </p>
+          </Card>
+        )
+      }
     </Section>
 
     <Section title={copy.skills}>
-      <SkillLayout title={copy.siteStack} skills={siteSkills} />
-      <SkillLayout title={copy.workflow} skills={workflowSkills} />
+      {skills.map((group) => <SkillLayout title={group.title} skills={group.items} />)}
     </Section>
 
     <SiteStats lang={isEn ? 'en' : 'zh'} />
