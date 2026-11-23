@@ -32,16 +32,16 @@ const copy = isEn
   ? {
       avatarAlt: 'Strontium profile illustration',
       about: 'About',
-      role: 'Personal website under construction',
+      role: '',
       introduction:
-        'Hi, I’m Strontium. This site is where I keep learning notes, project work, and ideas worth revisiting.',
+        'Hi, I’m Chen Sida (Strontium), an undergraduate in Computer Science at Southwest Minzu University. This site documents my project work, learning notes, and the open questions I’m still working through in frontend and AI agent development.',
       moreAbout: 'More about me',
       connect: 'Connect Me!',
       terminalHint: 'Prefer a shortcut? Open the small site terminal.',
       terminalWelcome: 'Welcome. These shortcuts lead to the main parts of the site.',
       blog: 'Blog',
       notes: 'Notes',
-      experience: 'Experience',
+      experience: 'Projects',
       openSource: 'Open Source',
       education: 'Education',
       skills: 'Skills',
@@ -49,14 +49,12 @@ const copy = isEn
       emptyNotes: 'Published notes will appear here.',
       moreBlogs: 'More blogs',
       moreNotes: 'More notes',
-      experienceTitle: 'Experience to be added',
-      experienceBody: 'Work and project experience will be added after it is reviewed.',
       githubTitle: 'DA-cpu1 on GitHub',
       githubBody: 'Public repositories and ongoing experiments.',
-      educationTitle: 'Education to be added',
-      educationBody: 'Add school, programme, and dates here when ready.',
-      siteStack: 'Site stack',
-      workflow: 'Workflow',
+      educationTitle: 'Southwest Minzu University',
+      educationBody: 'Computer Science · Undergraduate · Sep 2024–Jun 2028',
+      educationNote:
+        'Core courses: Databases, Computer Organization, Computer Networks, Data Structures',
       quote: 'Build the site around your own work, one page at a time.'
     }
   : {
@@ -79,23 +77,26 @@ const copy = isEn
       emptyNotes: '发布笔记后，它们会出现在这里。',
       moreBlogs: '更多文章',
       moreNotes: '更多笔记',
-      experienceTitle: '经历待补充',
-      experienceBody: '工作、实习与项目经历整理完成后会添加到这里。',
       githubTitle: 'DA-cpu1 的 GitHub',
       githubBody: '公开仓库与正在进行的实验。',
-      educationTitle: '教育经历待补充',
-      educationBody: '确认后可在这里填写学校、专业与时间。',
-      siteStack: '站点技术',
-      workflow: '工作流',
+      educationTitle: '西南民族大学',
+      educationBody: '计算机科学与技术 · 本科在读 · 2024.09–2028.06',
+      educationNote: '主修课程：数据库、计算机组成原理、计算机网络、数据结构',
       quote: '先写下自己的内容，再一步一步把网站变成喜欢的样子。'
     }
 
 const experienceCards = isEn
   ? [
       {
-        heading: copy.experienceTitle,
-        body: copy.experienceBody,
-        href: `${prefix}/about`,
+        heading: 'AI Voice Mock Interview Platform',
+        body: 'Real-time voice Q&A with five-dimension scoring and actionable feedback.',
+        href: `${prefix}/projects#ai-interview`,
+        target: '_self'
+      },
+      {
+        heading: 'Auto-Memories-Doll',
+        body: 'Turns local notes and Codex sessions into citable Q&A.',
+        href: `${prefix}/projects#memories`,
         target: '_self'
       }
     ]
@@ -103,21 +104,29 @@ const experienceCards = isEn
       {
         heading: 'AI 语音模拟面试平台',
         body: '实时语音问答、五维评分与改进建议。',
-        href: '/projects#ai-interview',
+        href: `${prefix}/projects#ai-interview`,
         target: '_self'
       },
       {
         heading: 'Auto-Memories-Doll',
         body: '把本地笔记与 Codex 会话整理成可引用问答。',
-        href: '/projects#memories',
+        href: `${prefix}/projects#memories`,
         target: '_self'
       }
     ]
 
 const skills = isEn
   ? [
-      { title: copy.siteStack, items: ['Astro', 'TypeScript', 'MDX'] },
-      { title: copy.workflow, items: ['Git', 'Bun'] }
+      {
+        title: 'Frontend',
+        items: ['HTML5', 'CSS3', 'JavaScript', 'TypeScript', 'React', 'Next.js']
+      },
+      { title: 'Tooling', items: ['Vite', 'npm', 'Git'] },
+      {
+        title: 'AI & Agents',
+        items: ['LLM APIs', 'Prompting', 'Structured Output', 'RAG', 'Tool Calling']
+      },
+      { title: 'AI Tools', items: ['Codex'] }
     ]
   : [
       {
@@ -294,17 +303,9 @@ const skills = isEn
     </Section>
 
     <Section title={copy.education}>
-      {
-        isEn ? (
-          <Card heading={copy.educationTitle} subheading={copy.educationBody} />
-        ) : (
-          <Card heading='西南民族大学' subheading='计算机科学与技术 · 本科在读 · 2024.09–2028.06'>
-            <p class='m-0 text-sm text-muted-foreground'>
-              主修课程：数据库、计算机组成原理、计算机网络、数据结构
-            </p>
-          </Card>
-        )
-      }
+      <Card heading={copy.educationTitle} subheading={copy.educationBody}>
+        <p class='m-0 text-sm text-muted-foreground'>{copy.educationNote}</p>
+      </Card>
     </Section>
 
     <Section title={copy.skills}>

@@ -1,13 +1,18 @@
 ---
 import PageLayout from '@/layouts/CommonPage.astro'
 
-const headings = [{ depth: 2, slug: 'github', text: 'GitHub' }]
+const headings = [
+  { depth: 2, slug: 'email', text: 'Email' },
+  { depth: 2, slug: 'github', text: 'GitHub' }
+]
 ---
 
 <PageLayout title='Contact' {headings}>
+  <p>You can reach me by email or on GitHub.</p>
+
+  <h2 id='email'>Email</h2>
   <p>
-    GitHub is the only public contact channel for now. Email and other social links will be added
-    after they are confirmed.
+    <a href='mailto:chensida2005@foxmail.com'>chensida2005@foxmail.com</a>
   </p>
 
   <h2 id='github'>GitHub</h2>

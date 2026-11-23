@@ -18,6 +18,11 @@ const socialImageURL = new URL(ogImage || '/og/default.png', Astro.url).href
 const socialImageAlt = `${title} social preview`
 
 const lang = getLangFromUrl(Astro.url)
+const siteDescription =
+  lang === 'en'
+    ? 'Strontium’s personal website for project work, learning notes, and open questions in frontend and AI agent development.'
+    : config.description
+const metaDescription = description ?? siteDescription
 const barePath = stripLangPrefix(Astro.url.pathname)
 const hasAlt = await hasEnVersion(barePath)
 const ogLocale = lang === 'en' ? 'en_US' : 'zh_CN'
@@ -39,7 +44,7 @@ const siteGraph = {
       '@id': `${origin}/#website`,
       url: `${origin}/`,
       name: config.title,
-      description: config.description,
+      description: siteDescription,
       inLanguage: lang === 'en' ? 'en' : 'zh-CN',
       publisher: { '@id': `${origin}/#person` }
     },
@@ -47,7 +52,7 @@ const siteGraph = {
       '@type': 'Person',
       '@id': `${origin}/#person`,
       name: config.author,
-      description: config.description,
+      description: siteDescription,
       url: `${origin}/`,
       sameAs: ['https://github.com/DA-cpu1']
     }
@@ -69,7 +74,7 @@ const siteGraph = {
 {hreflangAlternates.map((alt) => <link rel='alternate' hreflang={alt.hreflang} href={alt.href} />)}
 
 <meta content={siteTitle} name='title' />
-<meta content={description} name='description' />
+<meta content={metaDescription} name='description' />
 <meta content={config.author} name='author' />
 <meta content={noindex ? 'noindex, follow' : 'index, follow'} name='robots' />
 
@@ -78,7 +83,7 @@ const siteGraph = {
 
 <meta content={articleDate ? 'article' : 'website'} property='og:type' />
 <meta content={title} property='og:title' />
-<meta content={description} property='og:description' />
+<meta content={metaDescription} property='og:description' />
 <meta content={canonicalURL} property='og:url' />
 <meta content={config.title} property='og:site_name' />
 <meta content={ogLocale} property='og:locale' />
@@ -100,7 +105,7 @@ const siteGraph = {
 <meta content='summary_large_image' property='twitter:card' />
 <meta content={canonicalURL} property='twitter:url' />
 <meta content={title} property='twitter:title' />
-<meta content={description} property='twitter:description' />
+<meta content={metaDescription} property='twitter:description' />
 <meta content={socialImageURL} property='twitter:image' />
 <meta content={socialImageAlt} property='twitter:image:alt' />
 

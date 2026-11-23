@@ -8,17 +8,69 @@ const headings = [
 ---
 
 <PageLayout title='Projects' {headings}>
-  <p>
-    This page will present projects I built or meaningfully contributed to, including the problem,
-    process, decisions, and outcome.
-  </p>
+  <p>This page documents the projects I’ve built across frontend and agent development.</p>
 
   <h2 id='selected'>Project archive</h2>
-  <div class='not-prose my-6 rounded-2xl border border-dashed p-6 sm:p-8'>
-    <p class='m-0 text-lg font-medium text-foreground'>The first case study is being prepared</p>
-    <p class='mb-0 mt-2 text-muted-foreground'>
-      It will appear here when it is ready, without carrying over template examples.
-    </p>
+  <div class='not-prose mt-6 grid gap-4 md:grid-cols-2'>
+    <article id='ai-interview' class='scroll-mt-24 rounded-2xl border bg-muted px-5 py-4'>
+      <h3 class='text-lg font-medium'>AI Voice Mock Interview Platform</h3>
+      <p class='mt-2 text-muted-foreground'>
+        A real-time voice mock interview tool for job seekers. Configure practice by role, level,
+        and tech stack, then receive live captions, five-dimension scoring, strengths, and
+        improvement suggestions.
+      </p>
+      <div class='mt-4 flex flex-wrap gap-2'>
+        {
+          [
+            'Next.js',
+            'React',
+            'TypeScript',
+            'Firebase',
+            'AICallKit',
+            'Alibaba Cloud Model Studio',
+            'Zod'
+          ].map((item) => (
+            <span class='rounded-full bg-background px-2.5 py-1 text-xs text-muted-foreground'>
+              {item}
+            </span>
+          ))
+        }
+      </div>
+      <p class='mt-4 text-xs text-muted-foreground'>
+        Technical focus: Zod validation · Firebase auth and data ownership · Live captions · Scoring
+        feedback
+      </p>
+    </article>
+
+    <article id='memories' class='scroll-mt-24 rounded-2xl border bg-muted px-5 py-4'>
+      <h3 class='text-lg font-medium'>Auto-Memories-Doll</h3>
+      <p class='mt-2 text-muted-foreground'>
+        Turns local development notes and tool sessions such as Codex into a Markdown knowledge
+        base, with semantic retrieval, tool calling, and source-grounded Q&amp;A.
+      </p>
+      <div class='mt-4 flex flex-wrap gap-2'>
+        {
+          [
+            'Next.js',
+            'React',
+            'TypeScript',
+            'Vercel AI SDK',
+            'Embedding',
+            'SQLite',
+            'USearch',
+            'Zod'
+          ].map((item) => (
+            <span class='rounded-full bg-background px-2.5 py-1 text-xs text-muted-foreground'>
+              {item}
+            </span>
+          ))
+        }
+      </div>
+      <p class='mt-4 text-xs text-muted-foreground'>
+        Technical focus: Task persistence · Tool-calling loop · Citation verification and refusal ·
+        RAG retrieval
+      </p>
+    </article>
   </div>
 
   <h2 id='github'>GitHub</h2>

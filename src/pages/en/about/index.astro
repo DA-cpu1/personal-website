@@ -2,31 +2,38 @@
 import PageLayout from '@/layouts/CommonPage.astro'
 
 const headings = [
-  { depth: 2, slug: 'site', text: 'About this site' },
-  { depth: 2, slug: 'now', text: 'Now' }
+  { depth: 2, slug: 'education', text: 'Education' },
+  { depth: 2, slug: 'awards', text: 'Awards & Certificates' },
+  { depth: 2, slug: 'site', text: 'About this site' }
 ]
 ---
 
 <PageLayout title='About' {headings}>
   <p>
-    Hi, I am Strontium. This is my personal website for learning notes, project work, and ideas
-    worth keeping.
+    I’m Chen Sida, also known online as Strontium, an undergraduate studying Computer Science at
+    Southwest Minzu University. I focus on frontend development and AI agent development.
   </p>
+  <p>
+    I’m currently building two main projects: a real-time voice mock interview platform, and a tool
+    that turns local notes into searchable, cited answers.
+  </p>
+
+  <h2 id='education'>Education</h2>
+  <p>
+    <strong>Southwest Minzu University</strong><br />
+    Computer Science · Undergraduate · Sep 2024–Jun 2028
+  </p>
+  <p>Core courses: Databases, Computer Organization, Computer Networks, Data Structures</p>
+
+  <h2 id='awards'>Awards &amp; Certificates</h2>
+  <ul>
+    <li>Second Prize, Lanqiao Cup Provincial Competition</li>
+    <li>College English Test Band 4 (CET-4)</li>
+  </ul>
 
   <h2 id='site'>About this site</h2>
   <p>
-    The site is still taking shape. New sections will be added gradually, with a focus on work I
-    have made and can maintain myself.
-  </p>
-
-  <h2 id='now'>Now</h2>
-  <p>
-    The first stage is about establishing a clear profile, a project archive, and a reliable
-    writing workflow. A fuller biography will follow.
-  </p>
-
-  <p>
-    For now, you can find my public code on
-    <a href='https://github.com/DA-cpu1' target='_blank' rel='noreferrer'>GitHub</a>.
+    This site documents project work, learning notes, and open questions. You can find my public
+    code on <a href='https://github.com/DA-cpu1' target='_blank' rel='noreferrer'>GitHub</a>.
   </p>
 </PageLayout>
