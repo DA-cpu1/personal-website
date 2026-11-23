@@ -92,3 +92,7 @@ bunfig.toml
 .claude/
 .env*.local
 .env*
+
+# local RAG source archives
+/RAG学习 (1).zip
+/RAG学习 (1)/
