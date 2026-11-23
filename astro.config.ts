@@ -69,7 +69,7 @@ const bilingualReadingTime = (): AstroIntegration => ({
 export default defineConfig({
   // Top-Level Options
   // Replace this placeholder with the final production domain before deployment.
-  site: 'https://example.com',
+  site: 'https://strontium-two.vercel.app',
   // base: '/docs',
   trailingSlash: 'never',
 
