@@ -15,6 +15,11 @@ html {
   font-family: 'Satoshi', sans-serif;
 }
 
+.brand-wordmark {
+  font-family: 'Geist Variable', 'Satoshi', sans-serif;
+  letter-spacing: -0.025em;
+}
+
 /* Theme */
 :root {
   --background: 210 33% 99%;
